@@ -1,8 +1,23 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<a href="/product/create/"> Add new Product</a>
+<h3>Nasze Kawy</h3>
 {% for product in object_list %}
-    <div>{{product}}</div>
-    
+    {% if product.category.name == 'Kawa' %}
+        <div>
+            {{product}}
+        </div>
+    {% endif %}    
 {% endfor %}
+<br>
+<h3>Nasze Herbaty</h3>
+{% for product in object_list %}
+    {% if product.category.name == 'Herbata' %}
+        <div>
+            {{product}}
+        </div>
+    {% endif %}    
+{% endfor %}
+
 {% endblock %}

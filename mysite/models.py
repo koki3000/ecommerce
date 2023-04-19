@@ -23,6 +23,7 @@ class Product(models.Model):
     def __str__(self):
         return f'{self.name}'
 
+
 class Basket(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     product = models.ForeignKey(Product, models.PROTECT, null=True, blank=True)
