@@ -9,7 +9,8 @@
         {% if product.category == category %}
             <div>
                 {{product}}
-                <a href="/product/{{product.id}}/delete/">Remove product</a>
+                <a href="/product/{{product.id}}/update/">Update </a>
+                <a href="/product/{{product.id}}/delete/">Remove </a>
             </div>
         {% endif %}  
     {% endfor %}
