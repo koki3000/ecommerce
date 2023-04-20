@@ -1,7 +1,7 @@
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, DeleteView
 from django.urls import path, reverse_lazy, reverse
-from . models import Product
+from . models import Product, Category
 from . forms import ProductForm
 
 
@@ -12,6 +12,10 @@ class HomePageView(ListView):
 
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["category_list"] = Category.objects.all()
+        return context
 
 class CreateProductView(CreateView):
 

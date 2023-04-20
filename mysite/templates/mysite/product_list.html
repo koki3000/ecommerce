@@ -2,23 +2,17 @@
 
 {% block content %}
 <a href="/product/create/"> Add new Product</a>
-<h3>Nasze Kawy</h3>
-{% for product in object_list %}
-    {% if product.category.name == 'Kawa' %}
-        <div>
-            {{product}}
-            <a href="/product/{{product.id}}/delete/">Remove product</a>
-        </div>
-    {% endif %}    
-{% endfor %}
-<br>
-<h3>Nasze Herbaty</h3>
-{% for product in object_list %}
-    {% if product.category.name == 'Herbata' %}
-        <div>
-            {{product}}
-        </div>
-    {% endif %}    
+
+{% for category in category_list %}
+    <h3>{{category}}</h3>
+    {% for product in product_list %}
+        {% if product.category == category %}
+            <div>
+                {{product}}
+                <a href="/product/{{product.id}}/delete/">Remove product</a>
+            </div>
+        {% endif %}  
+    {% endfor %}
 {% endfor %}
 
 {% endblock %}
