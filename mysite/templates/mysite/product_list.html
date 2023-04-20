@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="/product/create/"> Add new Product</a>
+<a href="/product/create/"> Dodaj nowy produkt</a>
 
 {% for category in category_list %}
     <h3>{{category}}</h3>
     {% for product in product_list %}
         {% if product.category == category %}
             <div>
-                {{product}}
-                <a href="/product/{{product.id}}/update/">Update </a>
-                <a href="/product/{{product.id}}/delete/">Remove </a>
+                <a href="/product/{{product.id}}/">{{product}}</a>
+                <a href="/product/{{product.id}}/update/">Edytuj </a>
+                <a href="/product/{{product.id}}/delete/">Usuń </a>
             </div>
         {% endif %}  
     {% endfor %}
