@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<a href="/category/create/"> Dodaj nowy produkt</a>
+<br>
+<br>
+{% for category in category_list %}
+    <br>
+    <div>
+        <a href="/category/{{category.id}}/">{{category}}</a>
+        <a href="/category/{{category.id}}/update/">Edytuj </a>
+        <a href="/category/{{category.id}}/delete/">Usuń </a>
+    </div>
+{% endfor %}
+
+{% endblock %}
