@@ -19,8 +19,10 @@
             {% else %}
                 Ilość w magazynie: {{object.quantity}}
             {% endif %}
-        </div>        
-        <a href="/product/{{object.id}}/update/">Edytuj </a>
-        <a href="/product/{{object.id}}/delete/">Usuń </a>
+        </div>
+        {% if user.is_superuser %}
+            <a href="/product/{{object.id}}/update/">Edytuj </a>
+            <a href="/product/{{object.id}}/delete/">Usuń </a>
+        {% endif %}
     </div>
 {% endblock %}
