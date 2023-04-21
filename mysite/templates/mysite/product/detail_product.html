@@ -1,28 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>{{object}}</h2>
+    <h2>{{product}}</h2>
 
     <div>
         <div>
-            Cena: {{object.price}} zł
+            Cena: {{product.price}} zł
         </div>
         <div>
-            Kategoria: {{object.category}}
+            Kategoria: {{product.category}}
         </div>
         <div>
-            Opis: {{object.description}}
+            Opis: {{product.description}}
         </div>
         <div>
-            {% if not object.availability or not object.quantity %}
+            {% if not product.availability or not product.quantity %}
                 Brak towaru.
             {% else %}
-                Ilość w magazynie: {{object.quantity}}
+                Ilość w magazynie: {{product.quantity}}
             {% endif %}
         </div>
         {% if user.is_superuser %}
-            <a href="/product/{{object.id}}/update/">Edytuj </a>
-            <a href="/product/{{object.id}}/delete/">Usuń </a>
+            <a href="/product/{{product.id}}/update/">Edytuj </a>
+            <a href="/product/{{product.id}}/delete/">Usuń </a>
         {% endif %}
     </div>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save">
+    </form>
 {% endblock %}

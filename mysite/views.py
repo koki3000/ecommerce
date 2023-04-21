@@ -2,8 +2,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import path, reverse_lazy, reverse
-from . models import Product, Category
-from . forms import ProductForm, CategoryForm, UserForm
+from . models import Product, Category, Basket
+from . forms import ProductForm, CategoryForm, UserForm, BasketForm
 from django.contrib.auth.models import User
 
 
@@ -23,10 +23,26 @@ class HomePageView(ListView):
         return context
 
 
-class ProductView(DetailView):
+class ProductView(CreateView):
     
-    model = Product
-    template_name = 'mysite/product/detail_product.html'
+    model = Basket
+    form_class = BasketForm
+    success_url = reverse_lazy("home")
+    template_name = 'mysite/product/detail_product.html']
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["product"] = Product.objects.get(pk=self.kwargs['pk'])
+        return context
+    
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        data.owner = self.request.user
+        data.product = Product.objects.get(pk=self.kwargs['pk'])
+        data.save()
+        return super(ProductView, self).form_valid(form)
 
 
 class CreateProductView(CreateView):

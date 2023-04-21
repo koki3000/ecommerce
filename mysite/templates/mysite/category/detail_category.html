@@ -4,22 +4,6 @@
     <h2>{{object}}</h2>
 
     <div>
-        <div>
-            Cena: {{object.price}} zł
-        </div>
-        <div>
-            Kategoria: {{object.category}}
-        </div>
-        <div>
-            Opis: {{object.description}}
-        </div>
-        <div>
-            {% if not object.availability or not object.quantity %}
-                Brak towaru.
-            {% else %}
-                Ilość w magazynie: {{object.quantity}}
-            {% endif %}
-        </div>
         {% if user.is_superuser %}
             <a href="/product/{{object.id}}/update/">Edytuj </a>
             <a href="/product/{{object.id}}/delete/">Usuń </a>
