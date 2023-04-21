@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="/product/create/"> Dodaj nowy produkt</a>
+
+{% if user.is_superuser %}
+    <a href="/product/create/"> Dodaj nowy produkt</a>
+{% endif %}
 
 {% for category in category_list %}
     <h3>{{category}}</h3>
@@ -11,9 +14,11 @@
                 <th>
                     Nazwa
                 </th>
-                <th>
-                    Akcje
-                </th>
+                {% if user.is_superuser %}
+                    <th>
+                        Akcje
+                    </th>
+                {% endif %}
             </tr>            
         </thead>
         <tbody>
@@ -23,10 +28,12 @@
                     <td>
                         <a href="/product/{{product.id}}/">{{product}}</a>
                     </td>
-                    <td>
-                        <a href="/product/{{product.id}}/update/">Edytuj </a>
-                        <a href="/product/{{product.id}}/delete/">Usuń </a>
-                    </td>
+                    {% if user.is_superuser %}
+                        <td>
+                            <a href="/product/{{product.id}}/update/">Edytuj </a>
+                            <a href="/product/{{product.id}}/delete/">Usuń </a>
+                        </td>
+                    {% endif %}
                 </tr>
             {% endif %}  
         {% endfor %}

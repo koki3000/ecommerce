@@ -1,31 +1,37 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="/category/create/"> Dodaj nową kategorię</a>
-<br>
-<br>
+
+{% if user.is_superuser %}
+    <a href="/category/create/"> Dodaj nową kategorię</a>
+    <br>
+    <br>
+{% endif %}
 <table border="3px">
     <thead>
         <tr>
             <th>
                 Nazwa
             </th>
-            <th>
-                Akcje
-            </th>
+            {% if user.is_superuser %}
+                <th>
+                    Akcje
+                </th>            
+            {% endif %}
         </tr>            
     </thead>
     <tbody>
         {% for category in category_list %}
-
             <tr>
                 <td>
                     <a href="/category/{{category.id}}/">{{category}}</a>
                 </td>
-                <td>
-                    <a href="/category/{{category.id}}/update/">Edytuj </a>
-                    <a href="/category/{{category.id}}/delete/">Usuń </a>
-                </td>
+                {% if user.is_superuser %}
+                    <td>
+                        <a href="/category/{{category.id}}/update/">Edytuj </a>
+                        <a href="/category/{{category.id}}/delete/">Usuń </a>
+                    </td>
+                {% endif %}
             </tr>
         {% endfor %}
     </tbody>
