@@ -13,4 +13,5 @@ urlpatterns = [
     path('category/<int:pk>/update/', views.UpdateCategoryView.as_view(), name="update-category"),
     path('category/<int:pk>/', views.CategoryView.as_view(), name="details-category"),
     path('category/', views.CategoryPageView.as_view(), name="category"),
+    path('user/create/', views.CreateUser.as_view(), name="create-user"),
 ]
