@@ -12,6 +12,16 @@
     <div>      
       <a href="/category/"> Kategorie </a>
     </div>
+    {% if user.is_authenticated %}
+    <div>
+      <a href="/accounts/logout/"> Logout</a>
+    </div>        
+    <a href="/">All contacts</a>
+  {% else %}
+    <div>
+      <a href="/accounts/login/"> Login </a>
+    </div>
+  {% endif %}
     <br>
     {% block content %}{% endblock %}
   </body>
