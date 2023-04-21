@@ -5,15 +5,33 @@
 
 {% for category in category_list %}
     <h3>{{category}}</h3>
-    {% for product in product_list %}
-        {% if product.category == category %}
-            <div>
-                <a href="/product/{{product.id}}/">{{product}}</a>
-                <a href="/product/{{product.id}}/update/">Edytuj </a>
-                <a href="/product/{{product.id}}/delete/">Usuń </a>
-            </div>
-        {% endif %}  
-    {% endfor %}
+    <table border="3px">
+        <thead>
+            <tr>
+                <th>
+                    Nazwa
+                </th>
+                <th>
+                    Akcje
+                </th>
+            </tr>            
+        </thead>
+        <tbody>
+        {% for product in product_list %}
+            {% if product.category == category %}
+                <tr>
+                    <td>
+                        <a href="/product/{{product.id}}/">{{product}}</a>
+                    </td>
+                    <td>
+                        <a href="/product/{{product.id}}/update/">Edytuj </a>
+                        <a href="/product/{{product.id}}/delete/">Usuń </a>
+                    </td>
+                </tr>
+            {% endif %}  
+        {% endfor %}
+        </tbody>
+    </table>
 {% endfor %}
 
 {% endblock %}

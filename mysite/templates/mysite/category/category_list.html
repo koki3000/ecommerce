@@ -1,16 +1,34 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<a href="/category/create/"> Dodaj nowy produkt</a>
+<a href="/category/create/"> Dodaj nową kategorie</a>
 <br>
 <br>
-{% for category in category_list %}
-    <br>
-    <div>
-        <a href="/category/{{category.id}}/">{{category}}</a>
-        <a href="/category/{{category.id}}/update/">Edytuj </a>
-        <a href="/category/{{category.id}}/delete/">Usuń </a>
-    </div>
-{% endfor %}
+<table border="3px">
+    <thead>
+        <tr>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Akcje
+            </th>
+        </tr>            
+    </thead>
+    <tbody>
+        {% for category in category_list %}
+
+            <tr>
+                <td>
+                    <a href="/category/{{category.id}}/">{{category}}</a>
+                </td>
+                <td>
+                    <a href="/category/{{category.id}}/update/">Edytuj </a>
+                    <a href="/category/{{category.id}}/delete/">Usuń </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 {% endblock %}
