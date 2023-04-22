@@ -25,10 +25,19 @@
             <a href="/product/{{product.id}}/delete/">Usuń </a>
         {% endif %}
     </div>
-
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Save">
-    </form>
+    {% if user.is_anonymous %}
+        <br>
+        <div>
+            <a href="/accounts/login/"> Zaloguj się </a> żeby dodać do koszyka
+        </div>
+        <div>
+            Nie masz konta? <a href="/user/create/"> Zarejestruj się </a>
+        </div>
+    {% else %}
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Save">
+        </form>
+    {% endif %}    
 {% endblock %}

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 
 
-# Product CRUD
+# Product Views
 
 class HomePageView(ListView):
 
@@ -28,7 +28,7 @@ class ProductView(CreateView):
     model = Basket
     form_class = BasketForm
     success_url = reverse_lazy("home")
-    template_name = 'mysite/product/detail_product.html']
+    template_name = 'mysite/product/detail_product.html'
 
 
     def get_context_data(self, **kwargs):
@@ -39,7 +39,8 @@ class ProductView(CreateView):
 
     def form_valid(self, form):
         data = form.save(commit=False)
-        data.owner = self.request.user
+        if not self.request.user.is_anonymous:
+            data.owner = self.request.user
         data.product = Product.objects.get(pk=self.kwargs['pk'])
         data.save()
         return super(ProductView, self).form_valid(form)
@@ -71,7 +72,7 @@ class UpdateProductView(UpdateView):
         return reverse('details-product', kwargs={'pk': self.object.id})
     
 
-# Category CRUD
+# Category Views
 
 class CategoryPageView(ListView):
 
@@ -109,7 +110,9 @@ class UpdateCategoryView(UpdateView):
 
     def get_success_url(self):
         return reverse('details-category', kwargs={'pk': self.object.id})
-    
+
+
+# User Views
 
 class CreateUser(CreateView):    
     model = User
@@ -122,3 +125,20 @@ class CreateUser(CreateView):
         data.set_password(data.password)
         data.save()
         return super(CreateUser, self).form_valid(form)
+
+
+# Basket Views
+
+class BasketPageView(ListView):
+
+    model = Basket
+    template_name = 'mysite/basket_list.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print('user: ', self.request.user.is_anonymous)
+        print(context)
+        if not self.request.user.is_anonymous:
+            print('cos')
+            context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
+        return context

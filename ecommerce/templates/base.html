@@ -6,12 +6,6 @@
   </head>
   <body>
     <h1>Sklep z Kawą i Herbatą</h1>
-    <div>
-      <a href="/"> Strona główna </a>
-    </div>
-    <div>      
-      <a href="/category/"> Kategorie </a>
-    </div>
     {% if user.is_authenticated %}
     <div>
       <a href="/accounts/logout/"> Wyloguj się </a>
@@ -24,6 +18,15 @@
       <a href="/user/create/"> Zarejestruj się </a>
     </div>
   {% endif %}
+    <div>
+      <a href="/"> Strona główna </a>
+    </div>
+    <div>      
+      <a href="/category/"> Kategorie </a>
+    </div>
+    <div>      
+      <a href="/basket/"> Koszyk </a>
+    </div>
     <br>
     {% block content %}{% endblock %}
   </body>

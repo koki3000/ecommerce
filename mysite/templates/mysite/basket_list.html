@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Twój koszyk</h3>
+
+<table border="3px">
+    <thead>
+        <tr>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Ilość
+            </th>
+        </tr>            
+    </thead>
+    <tbody>
+        {% for product in basket_product_list %}
+            <tr>
+                <td>
+                    <a href="/product/{{product.id}}/">{{product}}</a>
+                </td>
+                <td>
+                    {{product.quantity}}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
