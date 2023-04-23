@@ -1,11 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if user.is_superuser %}
+    {% if not user.is_anonymous %}
         <form method="post">
             {% csrf_token %}
-            <p>Czy na pewno chcesz usunąć "{{ object }}"?</p>
-            {{ form }}
+            <p>Czy na pewno chcesz usunąć wszystkie produkty z koszyka?</p>
             <input type="submit" value="Delete">
         </form>
     {% endif %}

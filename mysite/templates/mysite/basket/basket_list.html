@@ -12,20 +12,29 @@
             <th>
                 Ilość
             </th>
+            <th>
+                Akcje
+            </th>
         </tr>            
     </thead>
     <tbody>
         {% for product in basket_product_list %}
             <tr>
                 <td>
-                    <a href="/product/{{product.id}}/">{{product}}</a>
+                    <a href="/product/{{product.product_id}}/">{{product}}</a>
                 </td>
                 <td>
                     {{product.quantity}}
+                </td>
+                <td>
+                    <a href="/basket/{{product.id}}/delete/"> Usuń </a>
                 </td>
             </tr>
         {% endfor %}
     </tbody>
 </table>
-
+<br>
+{% if basket_product_list %}
+    <a href="/basket/delete-all/"> Usuń wszystko </a>
+{% endif %}
 {% endblock %}

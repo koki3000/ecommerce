@@ -15,4 +15,6 @@ urlpatterns = [
     path('category/', views.CategoryPageView.as_view(), name="category"),
     path('user/create/', views.CreateUser.as_view(), name="create-user"),
     path('basket/', views.BasketPageView.as_view(), name="basket"),
+    path('basket/<int:pk>/delete/', views.DeleteBasketView.as_view(), name="delete-basket"),
+    path('basket/delete-all/', views.delete_all_basket, name="delete-all-basket"),
 ]

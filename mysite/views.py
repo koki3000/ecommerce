@@ -5,6 +5,9 @@ from django.urls import path, reverse_lazy, reverse
 from . models import Product, Category, Basket
 from . forms import ProductForm, CategoryForm, UserForm, BasketForm
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
+from django.contrib import messages
 
 
 # Create your views here.
@@ -132,13 +135,31 @@ class CreateUser(CreateView):
 class BasketPageView(ListView):
 
     model = Basket
-    template_name = 'mysite/basket_list.html'
+    template_name = 'mysite/basket/basket_list.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('user: ', self.request.user.is_anonymous)
-        print(context)
         if not self.request.user.is_anonymous:
-            print('cos')
             context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
         return context
+    
+
+class DeleteBasketView(DeleteView):
+
+    model = Basket
+    success_url = reverse_lazy("basket")
+    template_name = 'mysite/basket/delete_basket_form.html'
+    
+
+def delete_all_basket(request):
+
+    basket = Basket.objects.filter(owner = request.user)
+    context = {'basket_list': basket}    
+    
+    if request.method == 'GET':
+        return render(request, 'mysite/basket/delete_all_basket_form.html',context)
+    if request.method == 'POST':
+        basket.delete()
+        messages.success(request,  'Koszyk został opróżniony.')
+        home = request.POST.get('home', '/')
+        return HttpResponseRedirect(home)
