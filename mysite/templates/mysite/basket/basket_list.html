@@ -24,6 +24,7 @@
                     <a href="/product/{{product.product_id}}/">{{product}}</a>
                 </td>
                 <td>
+                    <a href="/basket/?action=minus&basket_id={{product.id}}">-</a>
                     {{product.quantity}}
                     <a href="/basket/?action=plus&basket_id={{product.id}}">+</a>
                 </td>

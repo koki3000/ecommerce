@@ -147,10 +147,20 @@ class BasketPageView(ListView):
         action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
         basket_id = int(self.request.GET.get('basket_id')) if self.request.GET.get('basket_id') != None else ''
 
-        if action and basket_id:
+        if action == 'plus' and basket_id:
             basket_obj = Basket.objects.get(pk=basket_id)
             basket_obj.quantity += 1
-            basket_obj.save()
+            if basket_obj.quantity > basket_obj.product.quantity:
+                messages.error(self.request,  f'W magazynie mamy tylko {basket_obj.product.quantity} sztuk tego towaru.')
+            else:
+                basket_obj.save()
+        elif action == 'minus' and basket_id:
+            basket_obj = Basket.objects.get(pk=basket_id)
+            basket_obj.quantity -= 1
+            if basket_obj.quantity == 0:
+                basket_obj.delete()
+            else:
+                basket_obj.save()
 
         if not self.request.user.is_anonymous:
             context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
