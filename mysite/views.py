@@ -45,6 +45,10 @@ class ProductView(CreateView):
         if not self.request.user.is_anonymous:
             data.owner = self.request.user
         data.product = Product.objects.get(pk=self.kwargs['pk'])
+        if data.quantity > data.product.quantity:
+            messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
+            basket_item = self.request.POST.get('basket_item', f'/product/{data.product.id}/')
+            return HttpResponseRedirect(basket_item) 
         data.save()
         return super(ProductView, self).form_valid(form)
 
@@ -163,3 +167,21 @@ def delete_all_basket(request):
         messages.success(request,  'Koszyk został opróżniony.')
         home = request.POST.get('home', '/')
         return HttpResponseRedirect(home)
+    
+
+class UpdateBasketView(UpdateView):
+
+    model = Basket
+    form_class = BasketForm
+    success_url = reverse_lazy("basket")
+    template_name = 'mysite/basket/update_basket_form.html'
+
+    def form_valid(self, form):
+        data = form.save(commit=False)
+        if data.quantity > data.product.quantity:
+            messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
+            basket_item = self.request.POST.get('basket_item', f'/basket/{data.id}/update/')
+            return HttpResponseRedirect(basket_item) 
+        return super().form_valid(form)
+    
+
