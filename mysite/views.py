@@ -143,8 +143,18 @@ class BasketPageView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
+        basket_id = int(self.request.GET.get('basket_id')) if self.request.GET.get('basket_id') != None else ''
+
+        if action and basket_id:
+            basket_obj = Basket.objects.get(pk=basket_id)
+            basket_obj.quantity += 1
+            basket_obj.save()
+
         if not self.request.user.is_anonymous:
             context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
+
         return context
     
 
