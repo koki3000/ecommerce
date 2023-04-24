@@ -14,6 +14,9 @@
                 <th>
                     Nazwa
                 </th>
+                <th>
+                    Cena
+                </th>
                 {% if user.is_superuser %}
                     <th>
                         Akcje
@@ -27,6 +30,9 @@
                 <tr>
                     <td>
                         <a href="/product/{{product.id}}/">{{product}}</a>
+                    </td>
+                    <td>
+                        {{product.price}}zł
                     </td>
                     {% if user.is_superuser %}
                         <td>

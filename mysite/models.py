@@ -27,7 +27,7 @@ class Product(models.Model):
 class Basket(models.Model):
     owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     product = models.ForeignKey(Product, models.PROTECT, null=True, blank=True)
-    quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)], null=True, blank=True)
+    quantity = models.PositiveIntegerField(validators=[MinValueValidator(1)], null=True, blank=True, default=1)
     
     def __str__(self):
         return f'{self.product}'
