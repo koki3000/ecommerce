@@ -22,14 +22,18 @@
     </thead>
     <tbody>
         {% for category in category_list %}
-            <tr>
-                <td>
-                    <a href="/category/{{category.id}}/">{{category}}</a>
-                </td>
+            <tr>                
                 {% if user.is_superuser %}
+                    <td>
+                        <a href="/category/{{category.id}}/">{{category}}</a>
+                    </td>
                     <td>
                         <a href="/category/{{category.id}}/update/">Edytuj </a>
                         <a href="/category/{{category.id}}/delete/">Usuń </a>
+                    </td>
+                {% else %}
+                    <td>
+                        <a href="/?category={{category.id}}">{{category}}</a>
                     </td>
                 {% endif %}
             </tr>

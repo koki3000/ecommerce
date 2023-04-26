@@ -22,7 +22,15 @@ class HomePageView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["category_list"] = Category.objects.all()
+
+        category = self.request.GET.get('category') if self.request.GET.get('category') != None else ''
+        
+        if category:
+            context["one_category"] = Category.objects.get(pk=category)
+            context["product_list"] = Product.objects.filter(category=category)
+        else:
+            context["category_list"] = Category.objects.all()
+            
         return context
 
 

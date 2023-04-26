@@ -5,9 +5,8 @@
 {% if user.is_superuser %}
     <a href="/product/create/"> Dodaj nowy produkt</a>
 {% endif %}
-
-{% for category in category_list %}
-    <h3>{{category}}</h3>
+{% if one_category %}
+    <h3>{{one_category}}</h3>
     <table border="3px">
         <thead>
             <tr>
@@ -26,25 +25,65 @@
         </thead>
         <tbody>
         {% for product in product_list %}
-            {% if product.category == category %}
-                <tr>
+            <tr>
+                <td>
+                    <a href="/product/{{product.id}}/">{{product}}</a>
+                </td>
+                <td>
+                    {{product.price}}zł
+                </td>
+                {% if user.is_superuser %}
                     <td>
-                        <a href="/product/{{product.id}}/">{{product}}</a>
+                        <a href="/product/{{product.id}}/update/">Edytuj </a>
+                        <a href="/product/{{product.id}}/delete/">Usuń </a>
                     </td>
-                    <td>
-                        {{product.price}}zł
-                    </td>
-                    {% if user.is_superuser %}
-                        <td>
-                            <a href="/product/{{product.id}}/update/">Edytuj </a>
-                            <a href="/product/{{product.id}}/delete/">Usuń </a>
-                        </td>
-                    {% endif %}
-                </tr>
-            {% endif %}  
+                {% endif %}
+            </tr>
         {% endfor %}
         </tbody>
     </table>
-{% endfor %}
+
+{% else %}
+    {% for category in category_list %}
+        <h3>{{category}}</h3>
+        <table border="3px">
+            <thead>
+                <tr>
+                    <th>
+                        Nazwa
+                    </th>
+                    <th>
+                        Cena
+                    </th>
+                    {% if user.is_superuser %}
+                        <th>
+                            Akcje
+                        </th>
+                    {% endif %}
+                </tr>            
+            </thead>
+            <tbody>
+            {% for product in product_list %}
+                {% if product.category == category %}
+                    <tr>
+                        <td>
+                            <a href="/product/{{product.id}}/">{{product}}</a>
+                        </td>
+                        <td>
+                            {{product.price}}zł
+                        </td>
+                        {% if user.is_superuser %}
+                            <td>
+                                <a href="/product/{{product.id}}/update/">Edytuj </a>
+                                <a href="/product/{{product.id}}/delete/">Usuń </a>
+                            </td>
+                        {% endif %}
+                    </tr>
+                {% endif %}  
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endif %}
 
 {% endblock %}
