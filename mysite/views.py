@@ -205,3 +205,20 @@ class UpdateBasketView(UpdateView):
         return super().form_valid(form)
     
 
+def buy_view(request):
+    basket = Basket.objects.filter(owner = request.user)
+    context = {'basket_list': basket}
+
+    if request.method == 'GET':
+        return render(request, 'mysite/basket/buy_form.html',context)
+    if request.method == 'POST':
+        for product in context['basket_list']:
+            product.product.quantity -= product.quantity
+            if product.product.quantity >= 0:
+                product.product.save()
+                product.delete()
+            else:
+                messages.error(request, f'Niestety w magazynie mamy tylko {product.quantity} produktu {product.product}.')
+
+        home = request.POST.get('home', '/')
+        return HttpResponseRedirect(home)

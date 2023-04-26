@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+    {% if not user.is_anonymous %}
+        <form method="post">
+            {% csrf_token %}
+            <p>Czy na pewno chcesz kupić wszystkie produkty z koszyka?</p>
+            <input type="submit" value="Kup wszystko">
+        </form>
+    {% endif %}
+{% endblock %}

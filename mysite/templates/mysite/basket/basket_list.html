@@ -41,6 +41,11 @@
 </table>
 <br>
 {% if basket_product_list %}
+    <div>
+        <a href="/basket/buy/"> Kup wszystko </a>
+    </div>
+{% endif %}
+{% if basket_product_list %}
     <a href="/basket/delete-all/"> Usuń wszystko </a>
 {% endif %}
 {% endblock %}

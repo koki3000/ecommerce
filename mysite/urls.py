@@ -18,4 +18,5 @@ urlpatterns = [
     path('basket/<int:pk>/delete/', views.DeleteBasketView.as_view(), name="delete-basket"),
     path('basket/delete-all/', views.delete_all_basket, name="delete-all-basket"),
     path('basket/<int:pk>/update/', views.UpdateBasketView.as_view(), name="update-basket"),
+    path('basket/buy/', views.buy_view, name="buy-basket")
 ]
