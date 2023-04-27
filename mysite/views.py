@@ -22,9 +22,11 @@ class HomePageView(ListView):
     
     def get_context_data(self, context=None, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        sort = None
         form = ProductSearchForm(self.request.GET)
         if form.is_valid():
+            sort = form.cleaned_data.get('sort', '')
+            
             if form.cleaned_data.get('name', ''):
                 
                 name = form.cleaned_data.get('name', '').strip()
@@ -37,6 +39,9 @@ class HomePageView(ListView):
             context["product_list"] = context["product_list"].filter(category=category)
         else:
             context["category_list"] = Category.objects.all()
+
+        if sort:
+            context["product_list"] = context["product_list"].order_by(sort)
 
         return super().get_context_data(
             form=form,

@@ -1,6 +1,7 @@
 from django.forms import ModelForm
 from .models import Product, Category, Basket
 from django.contrib.auth.models import User
+from django import forms
 
 
 class ProductForm(ModelForm):
@@ -9,14 +10,26 @@ class ProductForm(ModelForm):
         fields = '__all__'
 
 
+SORT_CHOICES =(
+    ("name", "a-z"),
+    ("-name", "z-a"),
+    ("price", "po cenie rosnąco"),
+    ("-price", "po cenie malejąco"),
+)
+
 class ProductSearchForm(ModelForm):
+
+    sort = forms.ChoiceField(choices=SORT_CHOICES, label="Sortuj")
+    sort.required = False
     class Meta:
         model = Product
+
         fields = ('name', 'category', )
 
         def __init__(self, *args, **kwargs):
             super().__init__(*args, **kwargs)
             self.fields['name'].required = False
+            
 
 
 class CategoryForm(ModelForm):
