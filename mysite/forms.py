@@ -9,6 +9,16 @@ class ProductForm(ModelForm):
         fields = '__all__'
 
 
+class ProductSearchForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ('name', 'category', )
+
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.fields['name'].required = False
+
+
 class CategoryForm(ModelForm):
     class Meta:
         model = Category

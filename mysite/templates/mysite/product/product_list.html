@@ -5,8 +5,14 @@
 {% if user.is_superuser %}
     <a href="/product/create/"> Dodaj nowy produkt</a>
 {% endif %}
-{% if one_category %}
-    <h3>{{one_category}}</h3>
+
+<form method="get">
+    {{form.as_p}}
+    <button type="submit">Szukaj</button>
+</form>
+
+{% if context.one_category %}
+    <h3>{{context.one_category}}</h3>
     <table border="3px">
         <thead>
             <tr>
@@ -24,7 +30,7 @@
             </tr>            
         </thead>
         <tbody>
-        {% for product in product_list %}
+        {% for product in context.product_list %}
             <tr>
                 <td>
                     <a href="/product/{{product.id}}/">{{product}}</a>
@@ -44,7 +50,7 @@
     </table>
 
 {% else %}
-    {% for category in category_list %}
+    {% for category in context.category_list %}
         <h3>{{category}}</h3>
         <table border="3px">
             <thead>
@@ -63,7 +69,7 @@
                 </tr>            
             </thead>
             <tbody>
-            {% for product in product_list %}
+            {% for product in context.product_list %}
                 {% if product.category == category %}
                     <tr>
                         <td>

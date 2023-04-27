@@ -3,7 +3,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import path, reverse_lazy, reverse
 from . models import Product, Category, Basket
-from . forms import ProductForm, CategoryForm, UserForm, BasketForm
+from . forms import ProductForm, CategoryForm, UserForm, BasketForm, ProductSearchForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -20,18 +20,28 @@ class HomePageView(ListView):
     model = Product
     template_name = 'mysite/product/product_list.html'
     
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, context=None, **kwargs):
         context = super().get_context_data(**kwargs)
 
+        form = ProductSearchForm(self.request.GET)
+        if form.is_valid():
+            if form.cleaned_data.get('name', ''):
+                
+                name = form.cleaned_data.get('name', '').strip()
+                if name:
+                    context["product_list"] = context["product_list"].filter(name__icontains=name)
+
         category = self.request.GET.get('category') if self.request.GET.get('category') != None else ''
-        
         if category:
             context["one_category"] = Category.objects.get(pk=category)
-            context["product_list"] = Product.objects.filter(category=category)
+            context["product_list"] = context["product_list"].filter(category=category)
         else:
             context["category_list"] = Category.objects.all()
-            
-        return context
+
+        return super().get_context_data(
+            form=form,
+            context=context,
+            **kwargs)
 
 
 class ProductView(CreateView):
