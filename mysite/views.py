@@ -71,7 +71,7 @@ class ProductView(CreateView):
         if data.quantity > data.product.quantity:
             messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
             basket_item = self.request.POST.get('basket_item', f'/product/{data.product.id}/')
-            return HttpResponseRedirect(basket_item) 
+            return HttpResponseRedirect(basket_item)
         data.save()
         return super(ProductView, self).form_valid(form)
 
@@ -166,7 +166,7 @@ class BasketPageView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        sum = 0
         action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
         basket_id = int(self.request.GET.get('basket_id')) if self.request.GET.get('basket_id') != None else ''
 
@@ -187,6 +187,11 @@ class BasketPageView(ListView):
 
         if not self.request.user.is_anonymous:
             context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
+
+        for product in context["basket_product_list"]:
+            sum += product.price
+
+        context["sum"] = sum
 
         return context
     
@@ -242,6 +247,6 @@ def buy_view(request):
                 product.delete()
             else:
                 messages.error(request, f'Niestety w magazynie mamy tylko {product.quantity} produktu {product.product}.')
-
+        messages.success(request, f'Produkty zamówione.')
         home = request.POST.get('home', '/')
         return HttpResponseRedirect(home)

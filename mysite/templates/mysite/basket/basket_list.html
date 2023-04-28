@@ -13,6 +13,9 @@
                 Ilość
             </th>
             <th>
+                Cena
+            </th>
+            <th>
                 Akcje
             </th>
         </tr>            
@@ -29,6 +32,9 @@
                     <a href="/basket/?action=plus&basket_id={{product.id}}">+</a>
                 </td>
                 <td>
+                    {{product.price}}
+                </td>
+                <td>
                     <a href="/basket/{{product.id}}/delete/"> Usuń </a>
                     
                 </td>
@@ -41,6 +47,9 @@
 </table>
 <br>
 {% if basket_product_list %}
+    <div>
+        Suma do zapłaty {{sum}}zł
+    </div>
     <div>
         <a href="/basket/buy/"> Kup wszystko </a>
     </div>
