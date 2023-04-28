@@ -65,15 +65,24 @@ class ProductView(CreateView):
 
     def form_valid(self, form):
         data = form.save(commit=False)
+        
         if not self.request.user.is_anonymous:
             data.owner = self.request.user
         data.product = Product.objects.get(pk=self.kwargs['pk'])
+        owner = data.owner
+        product = data.product
+        quantity = data.quantity
+        if Basket.objects.filter(product=product, owner=owner).exists():
+            data = Basket.objects.get(product=product, owner=owner)
+            data.quantity += quantity
         if data.quantity > data.product.quantity:
             messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
             basket_item = self.request.POST.get('basket_item', f'/product/{data.product.id}/')
             return HttpResponseRedirect(basket_item)
         data.save()
-        return super(ProductView, self).form_valid(form)
+        messages.success(self.request, f'Produkt {product} dodany do koszyka.')
+        home = self.request.POST.get('home', '/')
+        return HttpResponseRedirect(home)
 
 
 class CreateProductView(CreateView):
