@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
@@ -35,3 +36,10 @@ class Basket(models.Model):
     
     def __str__(self):
         return f'{self.product}'
+
+
+class Delivery(models.Model):
+    name = models.CharField('Nazwa', max_length=50, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
