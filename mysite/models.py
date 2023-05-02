@@ -49,4 +49,4 @@ class Payment(models.Model):
     payment_type = models.CharField('Typ płatności', max_length=50, unique=True)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.payment_type}'
