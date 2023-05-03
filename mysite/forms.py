@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Product, Category, Basket
+from .models import Product, Category, OrderDetail
 from django.contrib.auth.models import User
 from django import forms
 
@@ -44,7 +44,7 @@ class UserForm(ModelForm):
         fields = ['username', 'password', 'first_name', 'last_name', 'email']
 
 
-class BasketForm(ModelForm):
+class OrderDetailForm(ModelForm):
     class Meta:
-        model = Basket
+        model = OrderDetail
         fields = ['quantity']

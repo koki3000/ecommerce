@@ -14,9 +14,9 @@ urlpatterns = [
     path('category/<int:pk>/', views.CategoryView.as_view(), name="details-category"),
     path('category/', views.CategoryPageView.as_view(), name="category"),
     path('user/create/', views.CreateUser.as_view(), name="create-user"),
-    path('basket/', views.BasketPageView.as_view(), name="basket"),
-    path('basket/<int:pk>/delete/', views.DeleteBasketView.as_view(), name="delete-basket"),
-    path('basket/delete-all/', views.delete_all_basket, name="delete-all-basket"),
-    path('basket/<int:pk>/update/', views.UpdateBasketView.as_view(), name="update-basket"),
-    path('basket/buy/', views.buy_view, name="buy-basket")
+    path('order_detail/', views.OrderDetailPageView.as_view(), name="order_detail"),
+    path('order_detail/<int:pk>/delete/', views.DeleteOrderDetailView.as_view(), name="delete-order_detail"),
+    path('order_detail/delete-all/', views.delete_all_order_detail, name="delete-all-order_detail"),
+    path('order_detail/<int:pk>/update/', views.UpdateOrderDetailView.as_view(), name="update-order_detail"),
+    path('order_detail/buy/', views.buy_view, name="buy-order_detail")
 ]

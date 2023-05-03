@@ -2,8 +2,8 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.urls import path, reverse_lazy, reverse
-from . models import Product, Category, Basket
-from . forms import ProductForm, CategoryForm, UserForm, BasketForm, ProductSearchForm
+from . models import Product, Category, OrderDetail
+from . forms import ProductForm, CategoryForm, UserForm, OrderDetailForm, ProductSearchForm
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -51,8 +51,8 @@ class HomePageView(ListView):
 
 class ProductView(CreateView):
     
-    model = Basket
-    form_class = BasketForm
+    model = OrderDetail
+    form_class = OrderDetailForm
     success_url = reverse_lazy("home")
     template_name = 'mysite/product/detail_product.html'
 
@@ -67,18 +67,18 @@ class ProductView(CreateView):
         data = form.save(commit=False)
         
         if not self.request.user.is_anonymous:
-            data.owner = self.request.user
+            data.user = self.request.user
         data.product = Product.objects.get(pk=self.kwargs['pk'])
-        owner = data.owner
+        user = data.user
         product = data.product
         quantity = data.quantity
-        if Basket.objects.filter(product=product, owner=owner).exists():
-            data = Basket.objects.get(product=product, owner=owner)
+        if OrderDetail.objects.filter(product=product, user=user).exists():
+            data = OrderDetail.objects.get(product=product, user=user)
             data.quantity += quantity
         if data.quantity > data.product.quantity:
             messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
-            basket_item = self.request.POST.get('basket_item', f'/product/{data.product.id}/')
-            return HttpResponseRedirect(basket_item)
+            order_detail_item = self.request.POST.get('order_detail_item', f'/product/{data.product.id}/')
+            return HttpResponseRedirect(order_detail_item)
         data.save()
         messages.success(self.request, f'Produkt {product} dodany do koszyka.')
         home = self.request.POST.get('home', '/')
@@ -166,38 +166,38 @@ class CreateUser(CreateView):
         return super(CreateUser, self).form_valid(form)
 
 
-# Basket Views
+# OrderDetail Views
 
-class BasketPageView(ListView):
+class OrderDetailPageView(ListView):
 
-    model = Basket
-    template_name = 'mysite/basket/basket_list.html'
+    model = OrderDetail
+    template_name = 'mysite/order_detail/order_detail_list.html'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         sum = 0
         action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
-        basket_id = int(self.request.GET.get('basket_id')) if self.request.GET.get('basket_id') != None else ''
+        order_detail_id = int(self.request.GET.get('order_detail_id')) if self.request.GET.get('order_detail_id') != None else ''
 
-        if action == 'plus' and basket_id:
-            basket_obj = Basket.objects.get(pk=basket_id)
-            basket_obj.quantity += 1
-            if basket_obj.quantity > basket_obj.product.quantity:
-                messages.error(self.request,  f'W magazynie mamy tylko {basket_obj.product.quantity} sztuk tego towaru.')
+        if action == 'plus' and order_detail_id:
+            order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
+            order_detail_obj.quantity += 1
+            if order_detail_obj.quantity > order_detail_obj.product.quantity:
+                messages.error(self.request,  f'W magazynie mamy tylko {order_detail_obj.product.quantity} sztuk tego towaru.')
             else:
-                basket_obj.save()
-        elif action == 'minus' and basket_id:
-            basket_obj = Basket.objects.get(pk=basket_id)
-            basket_obj.quantity -= 1
-            if basket_obj.quantity == 0:
-                basket_obj.delete()
+                order_detail_obj.save()
+        elif action == 'minus' and order_detail_id:
+            order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
+            order_detail_obj.quantity -= 1
+            if order_detail_obj.quantity == 0:
+                order_detail_obj.delete()
             else:
-                basket_obj.save()
+                order_detail_obj.save()
 
         if not self.request.user.is_anonymous:
-            context["basket_product_list"] = Basket.objects.filter(owner = self.request.user)
+            context["order_detail_product_list"] = OrderDetail.objects.filter(user = self.request.user)
 
-        for product in context["basket_product_list"]:
+        for product in context["order_detail_product_list"]:
             sum += product.price
 
         context["sum"] = sum
@@ -205,51 +205,51 @@ class BasketPageView(ListView):
         return context
     
 
-class DeleteBasketView(DeleteView):
+class DeleteOrderDetailView(DeleteView):
 
-    model = Basket
-    success_url = reverse_lazy("basket")
-    template_name = 'mysite/basket/delete_basket_form.html'
+    model = OrderDetail
+    success_url = reverse_lazy("order_detail")
+    template_name = 'mysite/order_detail/delete_order_detail_form.html'
     
 
-def delete_all_basket(request):
+def delete_all_order_detail(request):
 
-    basket = Basket.objects.filter(owner = request.user)
-    context = {'basket_list': basket}    
+    order_detail = OrderDetail.objects.filter(user = request.user)
+    context = {'order_detail_list': order_detail}    
     
     if request.method == 'GET':
-        return render(request, 'mysite/basket/delete_all_basket_form.html',context)
+        return render(request, 'mysite/order_detail/delete_all_order_detail_form.html',context)
     if request.method == 'POST':
-        basket.delete()
+        order_detail.delete()
         messages.success(request,  'Koszyk został opróżniony.')
         home = request.POST.get('home', '/')
         return HttpResponseRedirect(home)
     
 
-class UpdateBasketView(UpdateView):
+class UpdateOrderDetailView(UpdateView):
 
-    model = Basket
-    form_class = BasketForm
-    success_url = reverse_lazy("basket")
-    template_name = 'mysite/basket/update_basket_form.html'
+    model = OrderDetail
+    form_class = OrderDetailForm
+    success_url = reverse_lazy("order_detail")
+    template_name = 'mysite/order_detail/update_order_detail_form.html'
 
     def form_valid(self, form):
         data = form.save(commit=False)
         if data.quantity > data.product.quantity:
             messages.error(self.request,  f'W magazynie mamy tylko {data.product.quantity} sztuk tego towaru.')
-            basket_item = self.request.POST.get('basket_item', f'/basket/{data.id}/update/')
-            return HttpResponseRedirect(basket_item) 
+            order_detail_item = self.request.POST.get('order_detail_item', f'/order_detail/{data.id}/update/')
+            return HttpResponseRedirect(order_detail_item) 
         return super().form_valid(form)
     
 
 def buy_view(request):
-    basket = Basket.objects.filter(owner = request.user)
-    context = {'basket_list': basket}
+    order_detail = OrderDetail.objects.filter(user = request.user)
+    context = {'order_detail_list': order_detail}
 
     if request.method == 'GET':
-        return render(request, 'mysite/basket/buy_form.html',context)
+        return render(request, 'mysite/order_detail/buy_form.html',context)
     if request.method == 'POST':
-        for product in context['basket_list']:
+        for product in context['order_detail_list']:
             product.product.quantity -= product.quantity
             if product.product.quantity >= 0:
                 product.product.save()

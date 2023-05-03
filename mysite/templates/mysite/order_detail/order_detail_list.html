@@ -21,40 +21,40 @@
         </tr>            
     </thead>
     <tbody>
-        {% for product in basket_product_list %}
+        {% for product in order_detail_product_list %}
             <tr>
                 <td>
                     <a href="/product/{{product.product_id}}/">{{product}}</a>
                 </td>
                 <td>
-                    <a href="/basket/?action=minus&basket_id={{product.id}}">-</a>
+                    <a href="/order_detail/?action=minus&order_detail_id={{product.id}}">-</a>
                     {{product.quantity}}
-                    <a href="/basket/?action=plus&basket_id={{product.id}}">+</a>
+                    <a href="/order_detail/?action=plus&order_detail_id={{product.id}}">+</a>
                 </td>
                 <td>
                     {{product.price}}
                 </td>
                 <td>
-                    <a href="/basket/{{product.id}}/delete/"> Usuń </a>
+                    <a href="/order_detail/{{product.id}}/delete/"> Usuń </a>
                     
                 </td>
                 <td>
-                    <a href="/basket/{{product.id}}/update/"> Zmień ilość </a>
+                    <a href="/order_detail/{{product.id}}/update/"> Zmień ilość </a>
                 </td>                
             </tr>
         {% endfor %}
     </tbody>
 </table>
 <br>
-{% if basket_product_list %}
+{% if order_detail_product_list %}
     <div>
         Suma do zapłaty {{sum}}zł
     </div>
     <div>
-        <a href="/basket/buy/"> Kup wszystko </a>
+        <a href="/order_detail/buy/"> Kup wszystko </a>
     </div>
 {% endif %}
-{% if basket_product_list %}
-    <a href="/basket/delete-all/"> Usuń wszystko </a>
+{% if order_detail_product_list %}
+    <a href="/order_detail/delete-all/"> Usuń wszystko </a>
 {% endif %}
 {% endblock %}
