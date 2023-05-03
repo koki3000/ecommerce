@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{object}}</h2>
+
+    <div>
+        {% if user.is_superuser %}
+            <a href="/delivery/{{object.id}}/update/">Edytuj </a>
+            <a href="/delivery/{{object.id}}/delete/">Usuń </a>
+        {% endif %}
+    </div>
+{% endblock %}
