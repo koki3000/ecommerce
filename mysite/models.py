@@ -27,6 +27,7 @@ class Product(models.Model):
     
 class Delivery(models.Model):
     name = models.CharField('Nazwa', max_length=50, unique=True)
+    price = models.FloatField('Cena', validators=[MinValueValidator(0)])
 
     def __str__(self):
         return f'{self.name}'
