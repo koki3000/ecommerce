@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Product, Category, OrderDetail, Delivery
+from .models import Product, Category, OrderDetail, Delivery, Payment
 from django.contrib.auth.models import User
 from django import forms
 
@@ -53,4 +53,10 @@ class OrderDetailForm(ModelForm):
 class DeliveryForm(ModelForm):
     class Meta:
         model = Delivery
+        fields = '__all__'
+
+
+class PaymentForm(ModelForm):
+    class Meta:
+        model = Payment
         fields = '__all__'
