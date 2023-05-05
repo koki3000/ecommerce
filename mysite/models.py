@@ -2,6 +2,7 @@ from typing import Any
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
+import datetime
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class Delivery(models.Model):
     price = models.FloatField('Cena', validators=[MinValueValidator(0)])
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} {self.price}zł'
     
     
 class Payment(models.Model):
@@ -42,12 +43,12 @@ class Payment(models.Model):
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    payment = models.ForeignKey(Payment, models.PROTECT, 'Płatność', null=True, blank=True)
-    order_date = models.DateField('Data zamówienia', null=True, blank=True)
+    payment = models.ForeignKey(Payment, models.PROTECT)
+    order_date = models.DateField('Data zamówienia', default=datetime.date.today, null=True, blank=True)
     ship_date = models.DateField('Data nadania', null=True, blank=True)
     required_date = models.DateField('Data dostarczenia', null=True, blank=True)
-    delivery = models.ForeignKey(Delivery, models.PROTECT, 'Dostawa', null=True, blank=True)
-    paid = models.BooleanField('Opłacono')
+    delivery = models.ForeignKey(Delivery, models.PROTECT)
+    paid = models.BooleanField('Opłacono', default=False)
     payment_date = models.DateField('Data płatności', null=True, blank=True)
 
 

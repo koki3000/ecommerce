@@ -18,6 +18,9 @@
                     Akcje
                 </th>            
             {% endif %}
+            <th>
+                Cena
+            </th>
         </tr>            
     </thead>
     <tbody>
@@ -36,6 +39,9 @@
                         {{delivery}}
                     </td>
                 {% endif %}
+                <td>
+                    {{delivery.price}}zł
+                </td>
             </tr>
         {% endfor %}
     </tbody>

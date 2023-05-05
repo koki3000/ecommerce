@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3>Twój koszyk</h3>
+
+<table border="3px">
+    <thead>
+        <tr>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Ilość
+            </th>
+            <th>
+                Cena
+            </th>
+        </tr>            
+    </thead>
+    <tbody>
+        {% for product in context.order_details %}
+            <tr>
+                <td>
+                    <a href="/product/{{product.product_id}}/">{{product}}</a>
+                </td>
+                <td>
+                    {{product.quantity}}
+                </td>
+                <td>
+                    {{product.price}}
+                </td>             
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<br>
+{% if context.order_details %}
+    {% if not delivery %}
+        <form method="get">
+            {{form.as_p}}
+            <button type="submit">Przejdź do podsumowania</button>
+        </form>
+    {% else %}
+        <div>
+            Sposób dostawy: {{delivery}}
+        </div>
+        <div>
+            Sposób płatności: {{payment}}
+        </div>        
+        <div>
+            Suma do zapłaty: {{sum}}zł
+        </div>
+        {% if not user.is_anonymous %}
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" value="Zapłać">
+            </form>
+        {% endif %}
+    {% endif %}
+{% endif %}
+
+{% endblock %}

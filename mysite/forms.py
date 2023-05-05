@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Product, Category, OrderDetail, Delivery, Payment
+from .models import Product, Category, OrderDetail, Delivery, Payment, Order
 from django.contrib.auth.models import User
 from django import forms
 
@@ -60,3 +60,15 @@ class PaymentForm(ModelForm):
     class Meta:
         model = Payment
         fields = '__all__'
+
+
+class OrderForm(ModelForm):
+
+    class Meta:
+        model = Order
+        fields = ('delivery', 'payment', )
+    
+    def __init__(self, *args, **kwargs):
+        super(OrderForm, self).__init__(*args, **kwargs)
+        self.fields['delivery'].label = "Sposób dostawy"
+        self.fields['payment'].label = "Sposób płatności"
