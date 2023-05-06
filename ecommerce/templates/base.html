@@ -34,6 +34,11 @@
     <div>      
       <a href="/order_detail/"> Koszyk </a>
     </div>
+    {% if user.is_authenticated %}
+    <div>      
+      <a href="/order/"> Historia zamówień </a>
+    </div>
+    {% endif %}
     <br>
     {% if messages %}
       <div>
