@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not user.is_anonymous %}
+    <h3>Zamówienie nr {{order.id}} </h3>
+    <div>
+        Data zamówienia: {{order.order_date}}
+    </div>
+    <div>
+        Sposób dostawy: {{order.delivery}}
+    </div>
+    <div>
+        Sposób płatności: {{order.payment}}
+    </div>
+    <div>
+        Wartość zamówienia: {{sum}}
+    </div>
+    <h4>Zawartość zamówienia:</h4>
+    <table border="3px">
+        <thead>
+            <tr>
+                <th>
+                    Produkt
+                </th>
+                <th>
+                    Ilość
+                </th>
+                <th>
+                    Cena
+                </th>
+            </tr>            
+        </thead>
+        <tbody>
+            {% for product in order_detail_list %}
+                <tr>
+                    <td>
+                        <a href="/product/{{product.product_id}}/">{{product}}</a>
+                    </td>
+                    <td>
+                        {{product.quantity}}
+                    </td>
+                    <td>
+                        {{product.price}}
+                    </td>                   
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+{% endif %}
+{% endblock %}

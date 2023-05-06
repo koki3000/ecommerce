@@ -406,3 +406,23 @@ class OrderPageView(ListView):
         context['order_list'] = Order.objects.filter(user=self.request.user)
 
         return context
+    
+
+class OrderContentView(ListView):
+
+    model = OrderDetail
+    template_name = 'mysite/order/order_content.html'
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        sum = 0
+        context["order"] = Order.objects.get(pk=self.kwargs['pk'])
+        context["order_detail_list"] = OrderDetail.objects.filter(order=self.kwargs['pk'])
+
+        for product in context["order_detail_list"]:
+            sum += product.price
+        sum += context["order"].delivery.price
+        
+        context["sum"] = sum
+
+        return context

@@ -30,4 +30,6 @@ urlpatterns = [
     path('payment/<int:pk>/', views.PaymentView.as_view(), name="details-payment"),
     path('payment/', views.PaymentPageView.as_view(), name="payment"),
     path('order/create/', views.CreateOrderView.as_view(), name="create-order"),
+    path('order/', views.OrderPageView.as_view(), name="order"),
+    path('order/content/<int:pk>/', views.OrderContentView.as_view(), name="content-order")
 ]
