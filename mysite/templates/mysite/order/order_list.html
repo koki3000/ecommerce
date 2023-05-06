@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if not user.is_anonymous %}
+    <h3>Historia zamówień</h3>
+
+    <table border="3px">
+        <thead>
+            <tr>
+                <th>
+                    Numer zamówienia
+                </th>
+                <th>
+                    Data złożenia zamówienia
+                </th>
+            </tr>            
+        </thead>
+        <tbody>
+            {% for order in order_list %}
+                <tr>
+                    <td>
+                        <a href="/order/content/{{order.id}}/">{{order.id}}</a>
+                        
+                    </td>
+                    <td>
+                        {{order.order_date}}
+                    </td>                    
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+{% endif %}
+{% endblock %}

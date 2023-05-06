@@ -393,3 +393,16 @@ class CreateOrderView(CreateView):
             delivery=delivery,
             sum=sum,
             **kwargs)
+    
+
+class OrderPageView(ListView):
+
+    model = Order
+    template_name = 'mysite/order/order_list.html'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_list'] = Order.objects.filter(user=self.request.user)
+
+        return context
