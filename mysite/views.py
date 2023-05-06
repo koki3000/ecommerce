@@ -381,7 +381,6 @@ class CreateOrderView(CreateView):
                 product.product.quantity -= product.quantity
                 if product.product.quantity >= 0:
                     product.product.save()
-                    product.delete()
                 else:
                     messages.error(self.request, f'Niestety w magazynie mamy tylko {product.quantity} produktu {product.product}.')
             messages.success(self.request, 'Złożono zamówienie.')
