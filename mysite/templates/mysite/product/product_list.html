@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
 
 {% if user.is_superuser %}
@@ -13,82 +13,41 @@
 
 {% if context.one_category %}
     <h3>{{context.one_category}}</h3>
-    <table border="3px">
-        <thead>
-            <tr>
-                <th>
-                    Nazwa
-                </th>
-                <th>
-                    Cena
-                </th>
-                {% if user.is_superuser %}
-                    <th>
-                        Akcje
-                    </th>
-                {% endif %}
-            </tr>            
-        </thead>
-        <tbody>
+    <div class="row">
         {% for product in context.product_list %}
-            <tr>
-                <td>
-                    <a href="/product/{{product.id}}/">{{product}}</a>
-                </td>
-                <td>
-                    {{product.price}}zł
-                </td>
-                {% if user.is_superuser %}
-                    <td>
-                        <a href="/product/{{product.id}}/update/">Edytuj </a>
-                        <a href="/product/{{product.id}}/delete/">Usuń </a>
-                    </td>
+            <div class="col">
+                <div>
+                    <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/Kawa-BRAZYLIA.jpg' %}"></a>
+                </div>
+                <a href="/product/{{product.id}}/">{{product}}</a>
+                {{product.price}}zł
+                {% if user.is_superuser %}                            
+                    <a href="/product/{{product.id}}/update/">Edytuj </a>
+                    <a href="/product/{{product.id}}/delete/">Usuń </a>                            
                 {% endif %}
-            </tr>
+            </div>
         {% endfor %}
-        </tbody>
-    </table>
-
+    </div>
 {% else %}
     {% for category in context.category_list %}
         <h3>{{category}}</h3>
-        <table border="3px">
-            <thead>
-                <tr>
-                    <th>
-                        Nazwa
-                    </th>
-                    <th>
-                        Cena
-                    </th>
-                    {% if user.is_superuser %}
-                        <th>
-                            Akcje
-                        </th>
-                    {% endif %}
-                </tr>            
-            </thead>
-            <tbody>
-            {% for product in context.product_list %}
+        <div class="row">
+        {% for product in context.product_list %}
                 {% if product.category == category %}
-                    <tr>
-                        <td>
-                            <a href="/product/{{product.id}}/">{{product}}</a>
-                        </td>
-                        <td>
-                            {{product.price}}zł
-                        </td>
-                        {% if user.is_superuser %}
-                            <td>
-                                <a href="/product/{{product.id}}/update/">Edytuj </a>
-                                <a href="/product/{{product.id}}/delete/">Usuń </a>
-                            </td>
+                    <div class="col">
+                        <div>
+                            <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/Kawa-BRAZYLIA.jpg' %}"></a>
+                        </div>
+                        <a href="/product/{{product.id}}/">{{product}}</a>
+                        {{product.price}}zł
+                        {% if user.is_superuser %}                            
+                            <a href="/product/{{product.id}}/update/">Edytuj </a>
+                            <a href="/product/{{product.id}}/delete/">Usuń </a>                            
                         {% endif %}
-                    </tr>
+                    </div>
                 {% endif %}  
             {% endfor %}
-            </tbody>
-        </table>
+        </div>
     {% endfor %}
 {% endif %}
 
