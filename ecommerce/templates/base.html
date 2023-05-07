@@ -1,54 +1,64 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <title>Kawoszownia</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
   </head>
   <body>
-    <h1>Sklep z Kawą i Herbatą</h1>
-    {% if user.is_authenticated %}
-      <h4>{{user}}</h4>
-      <div>
-        <a href="/accounts/logout/"> Wyloguj się </a>
-      </div>
-    {% else %}
-      <div>
-        <a href="/accounts/login/"> Zaloguj się </a>
-      </div>
-      <div>
-        <a href="/user/create/"> Zarejestruj się </a>
-      </div>
-    {% endif %}
-    <div>
-      <a href="/"> Strona główna </a>
-    </div>
-    <div>      
-      <a href="/category/"> Kategorie </a>
-    </div>
-    <div>      
-      <a href="/delivery/"> Dostawa </a>
-    </div>
-    <div>      
-      <a href="/payment/"> Płatności </a>
-    </div>
-    <div>      
-      <a href="/order_detail/"> Koszyk </a>
-    </div>
-    {% if user.is_authenticated %}
-    <div>      
-      <a href="/order/"> Historia zamówień </a>
-    </div>
-    {% endif %}
-    <br>
-    {% if messages %}
-      <div>
-      {% for message in messages %}
+    <header>
+      <h1>Sklep z Kawą i Herbatą</h1>
+      {% if user.is_authenticated %}
+        <h4>{{user}}</h4>
         <div>
-          {{ message }}
+          <a href="/accounts/logout/"> Wyloguj się </a>
         </div>
-      {% endfor %}
+      {% else %}
+        <div>
+          <a href="/accounts/login/"> Zaloguj się </a>
+        </div>
+        <div>
+          <a href="/user/create/"> Zarejestruj się </a>
+        </div>
+      {% endif %}
+    </header>
+
+    <nav>
+      <ul>
+        <li><a href="/"> Strona główna </a></li>
+        <li><a href="/category/"> Kategorie </a></li>
+        <li><a href="/delivery/"> Dostawa </a></li>
+        <li><a href="/payment/"> Płatności </a></li>
+        <li><a href="/order_detail/"> Koszyk </a></li>
+
+        {% if user.is_authenticated %}
+          <li><a href="/order/"> Historia zamówień </a></li>
+        {% endif %}
+      </ul>
+    </nav>
+
+    <nav>
+      <ul>
+        {% for category in categories %}
+        <li><a href="/?category={{category.id}}"> {{category}} </a></li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    {% if messages %}
+      <div class="messages">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
       </div>
     {% endif %}
+
     {% block content %}{% endblock %}
+
+    <footer>
+      &copy; 2023 Kawoszownia
+    </footer>
+
   </body>
 </html>
