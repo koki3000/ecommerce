@@ -4,18 +4,19 @@ from django.contrib.auth.models import User
 from django import forms
 
 
-class ProductForm(ModelForm):
-    class Meta:
-        model = Product
-        fields = '__all__'
-
-
 SORT_CHOICES =(
     ("name", "a-z"),
     ("-name", "z-a"),
     ("price", "po cenie rosnąco"),
     ("-price", "po cenie malejąco"),
 )
+
+
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = '__all__'
+
 
 class ProductSearchForm(ModelForm):
 
@@ -26,10 +27,9 @@ class ProductSearchForm(ModelForm):
 
         fields = ('name', 'category', )
 
-        def __init__(self, *args, **kwargs):
-            super().__init__(*args, **kwargs)
-            self.fields['name'].required = False
-            
+    def __init__(self, *args, **kwargs):
+        super(ProductSearchForm, self).__init__(*args, **kwargs)        
+        self.fields['category'].label = "Kategoria"            
 
 
 class CategoryForm(ModelForm):

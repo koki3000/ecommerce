@@ -5,11 +5,18 @@
 {% if user.is_superuser %}
     <a href="/product/create/"> Dodaj nowy produkt</a>
 {% endif %}
+<div class="row">
+    <div class="col-1">
+        Filtry:
+    </div>
+    <div class="col">
+        <form method="get">
+            {{form}}
+            <button type="submit">Szukaj</button>
+        </form>
+    </div>
+</div>
 
-<form method="get">
-    {{form.as_p}}
-    <button type="submit">Szukaj</button>
-</form>
 
 {% if context.one_category %}
     <h3>{{context.one_category}}</h3>
