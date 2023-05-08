@@ -24,7 +24,7 @@
         {% for product in context.product_list %}
             <div class="col">
                 <div>
-                    <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/Kawa-BRAZYLIA.jpg' %}"></a>
+                    <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/'|add:product.name|add:'.jpg' %}"></a>                    
                 </div>
                 <a href="/product/{{product.id}}/">{{product}}</a>
                 {{product.price}}zł
@@ -43,7 +43,7 @@
                 {% if product.category == category %}
                     <div class="col">
                         <div>
-                            <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/Kawa-BRAZYLIA.jpg' %}"></a>
+                            <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/'|add:product.name|add:'.jpg' %}"></a>
                         </div>
                         <a href="/product/{{product.id}}/">{{product}}</a>
                         {{product.price}}zł
