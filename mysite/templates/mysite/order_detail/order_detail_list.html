@@ -1,60 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Twój koszyk</h3>
-
-<table border="3px">
-    <thead>
-        <tr>
-            <th>
-                Produkt
-            </th>
-            <th>
-                Ilość
-            </th>
-            <th>
-                Cena
-            </th>
-            <th>
-                Akcje
-            </th>
-        </tr>            
-    </thead>
-    <tbody>
-        {% for product in order_detail_product_list %}
-            <tr>
-                <td>
-                    <a href="/product/{{product.product_id}}/">{{product}}</a>
-                </td>
-                <td>
-                    <a href="/order_detail/?action=minus&order_detail_id={{product.id}}">-</a>
-                    {{product.quantity}}
-                    <a href="/order_detail/?action=plus&order_detail_id={{product.id}}">+</a>
-                </td>
-                <td>
-                    {{product.price}}
-                </td>
-                <td>
-                    <a href="/order_detail/{{product.id}}/delete/"> Usuń </a>
-                    
-                </td>
-                <td>
-                    <a href="/order_detail/{{product.id}}/update/"> Zmień ilość </a>
-                </td>                
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<br>
-{% if order_detail_product_list %}
+{% if user.is_anonymous %}
+    <br>
     <div>
-        Suma do zapłaty {{sum}}zł
+        <a href="/accounts/login/"> Zaloguj się </a> żeby mieć dostęp do koszyka
     </div>
     <div>
-        <a href="/order/create/"> Dostawa i płatność </a>
+        Nie masz konta? <a href="/user/create/"> Zarejestruj się </a>
     </div>
-{% endif %}
-{% if order_detail_product_list %}
-    <a href="/order_detail/delete-all/"> Usuń wszystko </a>
-{% endif %}
+{% else %}
+    {% if not order_detail_product_list %}
+        <h3>Twój koszyk jest pusty</h3>
+    {% else %}
+        <h3>Twój koszyk</h3>
+        <table border="3px">
+            <thead>
+                <tr>
+                    <th>
+                        Produkt
+                    </th>
+                    <th>
+                        Ilość
+                    </th>
+                    <th>
+                        Cena
+                    </th>
+                    <th>
+                        Akcje
+                    </th>
+                </tr>            
+            </thead>
+            <tbody>
+                {% for product in order_detail_product_list %}
+                    <tr>
+                        <td>
+                            <a href="/product/{{product.product_id}}/">{{product}}</a>
+                        </td>
+                        <td>
+                            <a href="/order_detail/?action=minus&order_detail_id={{product.id}}">-</a>
+                            {{product.quantity}}
+                            <a href="/order_detail/?action=plus&order_detail_id={{product.id}}">+</a>
+                        </td>
+                        <td>
+                            {{product.price}}
+                        </td>
+                        <td>
+                            <a href="/order_detail/{{product.id}}/delete/"> Usuń </a>
+                            
+                        </td>
+                        <td>
+                            <a href="/order_detail/{{product.id}}/update/"> Zmień ilość </a>
+                        </td>                
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        {% if order_detail_product_list %}
+            <div>
+                Suma do zapłaty {{sum}}zł
+            </div>
+            <div>
+                <a href="/order/create/"> Dostawa i płatność </a>
+            </div>
+        {% endif %}
+        {% if order_detail_product_list %}
+            <a href="/order_detail/delete-all/"> Usuń wszystko </a>
+        {% endif %}
+    {% endif %}
+{% endif %}   
 {% endblock %}

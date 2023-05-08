@@ -175,32 +175,33 @@ class OrderDetailPageView(ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        sum = 0
-        action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
-        order_detail_id = int(self.request.GET.get('order_detail_id')) if self.request.GET.get('order_detail_id') != None else ''
-
-        if action == 'plus' and order_detail_id:
-            order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
-            order_detail_obj.quantity += 1
-            if order_detail_obj.quantity > order_detail_obj.product.quantity:
-                messages.error(self.request,  f'W magazynie mamy tylko {order_detail_obj.product.quantity} sztuk tego towaru.')
-            else:
-                order_detail_obj.save()
-        elif action == 'minus' and order_detail_id:
-            order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
-            order_detail_obj.quantity -= 1
-            if order_detail_obj.quantity == 0:
-                order_detail_obj.delete()
-            else:
-                order_detail_obj.save()
-
         if not self.request.user.is_anonymous:
-            context["order_detail_product_list"] = OrderDetail.objects.filter(user = self.request.user, order = None)
+            sum = 0
+            action = self.request.GET.get('action') if self.request.GET.get('action') != None else ''
+            order_detail_id = int(self.request.GET.get('order_detail_id')) if self.request.GET.get('order_detail_id') != None else ''
 
-        for product in context["order_detail_product_list"]:
-            sum += product.price
+            if action == 'plus' and order_detail_id:
+                order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
+                order_detail_obj.quantity += 1
+                if order_detail_obj.quantity > order_detail_obj.product.quantity:
+                    messages.error(self.request,  f'W magazynie mamy tylko {order_detail_obj.product.quantity} sztuk tego towaru.')
+                else:
+                    order_detail_obj.save()
+            elif action == 'minus' and order_detail_id:
+                order_detail_obj = OrderDetail.objects.get(pk=order_detail_id)
+                order_detail_obj.quantity -= 1
+                if order_detail_obj.quantity == 0:
+                    order_detail_obj.delete()
+                else:
+                    order_detail_obj.save()
 
-        context["sum"] = sum
+            if not self.request.user.is_anonymous:
+                context["order_detail_product_list"] = OrderDetail.objects.filter(user = self.request.user, order = None)
+
+            for product in context["order_detail_product_list"]:
+                sum += product.price
+
+            context["sum"] = sum
 
         return context
     
