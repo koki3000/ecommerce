@@ -23,6 +23,8 @@ class HomePageView(ListView):
     def get_context_data(self, context=None, **kwargs):
         context = super().get_context_data(**kwargs)
         sort = None
+        category_list = []
+        context["category_list"] = None
         form = ProductSearchForm(self.request.GET)
         if form.is_valid():
             sort = form.cleaned_data.get('sort', '')
@@ -32,12 +34,18 @@ class HomePageView(ListView):
                 name = form.cleaned_data.get('name', '').strip()
                 if name:
                     context["product_list"] = context["product_list"].filter(name__icontains=name)
+                    for product in context["product_list"]:
+                        category_name = product.category.name
+                        if category_name not in category_list:
+                            category_list.append(category_name)
+
+                    context["category_list"] = Category.objects.filter(name__in=category_list)                        
 
         category = self.request.GET.get('category') if self.request.GET.get('category') != None else ''
         if category:
             context["one_category"] = Category.objects.get(pk=category)
             context["product_list"] = context["product_list"].filter(category=category)
-        else:
+        elif not context["category_list"]:
             context["category_list"] = Category.objects.all()
 
         if sort:
