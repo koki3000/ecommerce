@@ -434,3 +434,7 @@ class OrderContentView(ListView):
         context["sum"] = sum
 
         return context
+
+
+def contact_view(request):
+    return render(request, 'mysite/contact.html')
