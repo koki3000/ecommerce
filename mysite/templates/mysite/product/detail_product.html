@@ -5,7 +5,7 @@
     <img src="{% static 'assets/img/'|add:product.name|add:'.jpg' %}">
     <div>
         <div>
-            Cena: {{product.price}} zł
+            Cena: {{product.price|floatformat:2}} zł
         </div>
         <div>
             Kategoria: {{product.category}}

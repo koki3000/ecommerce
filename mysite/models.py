@@ -31,7 +31,7 @@ class Delivery(models.Model):
     price = models.FloatField('Cena', validators=[MinValueValidator(0)])
 
     def __str__(self):
-        return f'{self.name} {self.price}zł'
+        return f'{self.name} {self.price:.2f}zł'
     
     
 class Payment(models.Model):

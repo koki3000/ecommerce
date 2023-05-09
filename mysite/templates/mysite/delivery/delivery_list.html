@@ -36,11 +36,11 @@
                     </td>
                 {% else %}
                     <td>
-                        {{delivery}}
+                        {{delivery.name}}
                     </td>
                 {% endif %}
                 <td>
-                    {{delivery.price}}zł
+                    {{delivery.price|floatformat:2}}zł
                 </td>
             </tr>
         {% endfor %}

@@ -43,15 +43,11 @@
                             <a href="/order_detail/?action=plus&order_detail_id={{product.id}}">+</a>
                         </td>
                         <td>
-                            {{product.price}}
+                            {{product.price|floatformat:2}}
                         </td>
                         <td>
-                            <a href="/order_detail/{{product.id}}/delete/"> Usuń </a>
-                            
-                        </td>
-                        <td>
-                            <a href="/order_detail/{{product.id}}/update/"> Zmień ilość </a>
-                        </td>                
+                            <a href="/order_detail/{{product.id}}/delete/"> Usuń </a>                            
+                        </td>             
                     </tr>
                 {% endfor %}
             </tbody>
@@ -59,7 +55,7 @@
         <br>
         {% if order_detail_product_list %}
             <div>
-                Suma do zapłaty {{sum}}zł
+                Suma do zapłaty {{sum|floatformat:2}}zł
             </div>
             <div>
                 <a href="/order/create/"> Dostawa i płatność </a>

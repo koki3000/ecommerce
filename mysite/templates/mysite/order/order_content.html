@@ -13,7 +13,7 @@
         Sposób płatności: {{order.payment}}
     </div>
     <div>
-        Wartość zamówienia: {{sum}}
+        Wartość zamówienia: {{sum|floatformat:2}}
     </div>
     <h4>Zawartość zamówienia:</h4>
     <table border="3px">
@@ -40,7 +40,7 @@
                         {{product.quantity}}
                     </td>
                     <td>
-                        {{product.price}}
+                        {{product.price|floatformat:2}}
                     </td>                   
                 </tr>
             {% endfor %}

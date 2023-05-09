@@ -27,7 +27,7 @@
                     <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/'|add:product.name|add:'.jpg' %}"></a>                    
                 </div>
                 <a href="/product/{{product.id}}/">{{product}}</a>
-                {{product.price}}zł
+                {{product.price|floatformat:2}}zł
                 {% if user.is_superuser %}                            
                     <a href="/product/{{product.id}}/update/">Edytuj </a>
                     <a href="/product/{{product.id}}/delete/">Usuń </a>                            
@@ -46,7 +46,7 @@
                             <a href="/product/{{product.id}}/"><img src="{% static 'assets/img/'|add:product.name|add:'.jpg' %}"></a>
                         </div>
                         <a href="/product/{{product.id}}/">{{product}}</a>
-                        {{product.price}}zł
+                        {{product.price|floatformat:2}}zł
                         {% if user.is_superuser %}                            
                             <a href="/product/{{product.id}}/update/">Edytuj </a>
                             <a href="/product/{{product.id}}/delete/">Usuń </a>                            
