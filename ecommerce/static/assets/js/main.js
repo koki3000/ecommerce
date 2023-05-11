@@ -10,7 +10,7 @@ const hide = () =>
 
 const slides = () =>
 {
-    var file = "<img src=\"/static/assets/img/"+ slides_tab[slide_number] +".jpg\">";
+    var file = "<a href=\"/slider/"+ slides_tab[slide_number] +"/\"><img src=\"/static/assets/img/"+ slides_tab[slide_number] +".jpg\"></a>";
     slide_number++;
     if (slide_number>4) slide_number=0;
     document.getElementById("slider").innerHTML = file;

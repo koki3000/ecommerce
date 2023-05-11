@@ -438,3 +438,8 @@ class OrderContentView(ListView):
 
 def contact_view(request):
     return render(request, 'mysite/contact.html')
+
+def slider_view(request, name):
+    product = Product.objects.get(name=name)
+    path = f'/product/{product.id}/'
+    return HttpResponseRedirect(path)

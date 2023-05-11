@@ -32,4 +32,5 @@ urlpatterns = [
     path('order/', views.OrderPageView.as_view(), name="order"),
     path('order/content/<int:pk>/', views.OrderContentView.as_view(), name="content-order"),
     path('contact/', views.contact_view, name="contact"),
+    path('slider/<str:name>/', views.slider_view, name="slider"),
 ]
