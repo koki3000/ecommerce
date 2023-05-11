@@ -27,3 +27,5 @@ const set_slide = (nr) =>
     hide();
     setTimeout("slides()", 500);
 }
+
+window.onload = slides;
