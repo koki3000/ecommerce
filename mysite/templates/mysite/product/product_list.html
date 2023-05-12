@@ -4,11 +4,7 @@
 <h3>Nasze nowości</h3>
 
 <div id="slider"></div>
-<span onclick="set_slide(0)" style="cursor: pointer;">[1]</span>
-<span onclick="set_slide(1)" style="cursor: pointer;">[2]</span>
-<span onclick="set_slide(2)" style="cursor: pointer;">[3]</span>
-<span onclick="set_slide(3)" style="cursor: pointer;">[4]</span>
-<span onclick="set_slide(4)" style="cursor: pointer;">[5]</span>
+<div id="slide_nav"></div>
 {% if user.is_superuser %}
     <div>
         <a href="/product/create/"> Dodaj nowy produkt</a>
