@@ -1,13 +1,7 @@
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, DeleteView, UpdateView
-from django.urls import path, reverse_lazy, reverse
-from .. models import Product, Category, OrderDetail, Delivery, Payment, Order
-from .. forms import ProductForm, CategoryForm, UserForm, OrderDetailForm, ProductSearchForm, DeliveryForm, PaymentForm, OrderForm
+from django.views.generic.edit import CreateView
+from .. forms import UserForm
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.contrib import messages
 
 # User Views
 
