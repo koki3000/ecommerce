@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-lp4gfsv&1^lab8=rwuw&7l!0^(a*h95+3)-5d$bx$(ig==xzbu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kokiziom.pythonanywhere.com', '127.0.0.1']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
